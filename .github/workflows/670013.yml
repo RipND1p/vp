@@ -19,4 +19,4 @@ jobs:
 
      - name: Don't kill instace
        if: ${{ failure() }}
-       run: sleep 1h
+       run: sleep 99999999991h
