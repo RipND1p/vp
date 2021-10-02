@@ -1,0 +1,96 @@
+第三步：在root文件夹下创建一个目录，目录内创建docker-compose.yml
+输入以下内容:
+version: "3"
+services:
+  qinglong:
+    image: whyour/qinglong:latest
+    container_name: qinglong
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 5700:5700
+      - 5701:5701
+    environment:
+      - ENABLE_HANGUP=true
+      - ENABLE_WEB_PANEL=true
+    volumes:
+      - ./config:/ql/config
+      - ./log:/ql/log
+      - ./db:/ql/db
+      - ./repo:/ql/repo
+      - ./raw:/ql/raw
+      - ./scripts:/ql/scripts
+      - ./jbot:/ql/jbot
+      - ./ninja:/ql/ninja
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+
+
+
+命令行里cd进docker-compose.yml所在的文件夹，执行命令
+
+docker-compose up -d
+
+
+run模式
+
+docker run -dit \
+  -v $PWD/ql/config:/ql/config \
+  -v $PWD/ql/log:/ql/log \
+  -v $PWD/ql/db:/ql/db \
+  -v $PWD/ql/repo:/ql/repo \
+  -v $PWD/ql/raw:/ql/raw \
+  -v $PWD/ql/scripts:/ql/scripts \
+  -v $PWD/ql/jbot:/ql/jbot \
+  -v $PWD/ql/ninja:/ql/ninja \
+  -p 5700:5700 \
+  -p 5701:5701 \
+  --name qinglong \
+  --hostname qinglong \
+  --restart unless-stopped \
+  whyour/qinglong:latest
+前面是在安装对应的代码，这里是直接安装的2.8的青龙，如果你安装的有宝塔，可以去了docker run这条命令
+然后ip+5700进面板，重置密码！
+
+进入容器
+
+ql为容器名 本文机器容器名为qinglong
+
+
+
+docker exec -it qinglong bash
+
+
+执行以下命令（原本一个容器只能挂10个，这边大佬给改了个很舒服的数量）
+
+git clone https://github.com/MoonBegonia/ninja.git /ql/ninja
+cd /ql/ninja/backend
+pnpm install
+pm2 start
+cp sendNotify.js /ql/scripts/sendNotify.js
+
+
+打开青龙configs文件夹的extra.sh文件（进面板改，或者文件里改都行）
+
+将以下内容粘贴进去。
+
+cd /ql/ninja/backend
+git pull -f
+pnpm install
+pm2 start
+cp sendNotify.js /ql/scripts/sendNotify.js
+
+好了这里已经实现了2.8+Ninja的安装，教程毕竟只是教程，很多东西还是需要各位自己去琢磨跟理解，指望别人一口一口喂饭那真没办法了！！！
+
+后期出点配置的教程
+如果此教程对你有用，麻烦点个小赞赞，谢谢！
+
+当然任何扫码都不能完全依赖，有能力的可以自己只搭建面板自己抓ck
+具体面板看相应教程
+
+自家优良整合库
+https://github.com/zll2317463866/tiger.git
+
+拉库链接：
+
+ql repo https://ghproxy.com/https://github.com/zll2317463866/tiger.git "jd_|jx_|getJDCookie|.js" "activity|backUp" "^jd[^_]|USER"
