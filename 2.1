@@ -1,0 +1,27 @@
+
+bbr
+
+BlueSkyXN 综合工具箱 Linux Supported ONLY
+wget -O box.sh https://raw.githubusercontent.com/BlueSkyXN/SKY-BOX/main/box.sh && chmod +x box.sh && clear && ./box.sh
+
+先选择17进入bbr
+再选择2安装bbrp
+重启之后选19启动bbrp
+再选择21配置优化
+
+
+如果提示 curl: command not found ，那是因为你的 VPS 没装 Curl
+
+centos 系统安装 Curl 方法: yum update -y && yum install curl -y
+安装好 curl 之后就能安装脚本了
+
+若安装完curl之后然后还是无法安装bbr可先安装v2ui再进行bbr安装
+
+
+
+v2ui脚本
+
+bash <(curl -Ls https://blog.sprov.xyz/v2-ui.sh)
+
+后台就是你的服务器ip:65432
+默认账号密码为admin
